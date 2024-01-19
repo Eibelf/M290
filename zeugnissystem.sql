@@ -1,9 +1,24 @@
-create database Zeugnissystem;
+create database if not exists Zeugnissystem;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 
 --
 -- Datenbank: `zeugnissystem`
@@ -15,7 +30,7 @@ create database Zeugnissystem;
 -- Tabellenstruktur für Tabelle `fächer`
 --
 
-CREATE TABLE `fächer` (
+CREATE TABLE if not exists `fächer` (
                           `ID` int(255) NOT NULL,
                           `Fachbezeichnung` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -37,7 +52,7 @@ INSERT INTO `fächer` (`ID`, `Fachbezeichnung`) VALUES
 -- Tabellenstruktur für Tabelle `klasse`
 --
 
-CREATE TABLE `klasse` (
+CREATE TABLE if not exists `klasse` (
                           `ID` int(255) NOT NULL,
                           `Klassenbezeichnung` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -55,7 +70,7 @@ INSERT INTO `klasse` (`ID`, `Klassenbezeichnung`) VALUES
 -- Tabellenstruktur für Tabelle `noten`
 --
 
-CREATE TABLE `noten` (
+CREATE TABLE if not exists `noten` (
                          `ID` int(255) NOT NULL,
                          `Note` decimal(2,1) NOT NULL,
                          `Semester` int(255) NOT NULL,
@@ -76,7 +91,7 @@ INSERT INTO `noten` (`ID`, `Note`, `Semester`, `Fach`) VALUES
 -- Tabellenstruktur für Tabelle `schüler`
 --
 
-CREATE TABLE `schüler` (
+CREATE TABLE if not exists `schüler` (
                            `ID` int(255) NOT NULL,
                            `Name` varchar(255) NOT NULL,
                            `Klasse` int(255) NOT NULL
@@ -87,7 +102,8 @@ CREATE TABLE `schüler` (
 --
 
 INSERT INTO `schüler` (`ID`, `Name`, `Klasse`) VALUES
-    (1, 'Florin Eibel', 1);
+    (1, 'Florin Eibel', 1),
+    (2, 'Timo Blanc', 1);
 
 -- --------------------------------------------------------
 
@@ -95,7 +111,7 @@ INSERT INTO `schüler` (`ID`, `Name`, `Klasse`) VALUES
 -- Tabellenstruktur für Tabelle `semester`
 --
 
-CREATE TABLE `semester` (
+CREATE TABLE if not exists `semester` (
                             `ID` int(255) NOT NULL,
                             `Semester` int(1) NOT NULL,
                             `Schüler` int(255) NOT NULL
@@ -114,7 +130,7 @@ INSERT INTO `semester` (`ID`, `Semester`, `Schüler`) VALUES
 -- Tabellenstruktur für Tabelle `zeugnis`
 --
 
-CREATE TABLE `zeugnis` (
+CREATE TABLE if not exists `zeugnis` (
                            `ID` int(255) NOT NULL,
                            `Semester` int(255) NOT NULL,
                            `Ausstellungsdatum` date NOT NULL,
@@ -126,7 +142,7 @@ CREATE TABLE `zeugnis` (
 --
 
 INSERT INTO `zeugnis` (`ID`, `Semester`, `Ausstellungsdatum`, `Änderungsdatum`) VALUES
-                                                                                    (3, 1, '2024-01-02', NULL);
+                                                                                    (3, 1, '2024-03-02', NULL);
 --
 -- Indizes der exportierten Tabellen
 --
@@ -211,11 +227,6 @@ ALTER TABLE `semester`
 --
 ALTER TABLE `zeugnis`
     MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Constraints der exportierten Tabellen
---
-
 --
 -- Constraints der Tabelle `noten`
 --
@@ -245,3 +256,21 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+SELECT user FROM mysql.user;
+
+DROP USER 'appAdmin'@'localhost';
+
+CREATE USER  'appAdmin'@'localhost' IDENTIFIED BY'appAdminPW';
+ALTER USER 'appAdmin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'appAdminPW';
+--    host: 'localhost',
+--    user: 'appAdmin',
+--    password: 'appAdminPW',
+--    database: 'zeugnissystem',
+
+GRANT all privileges ON zeugnissystem.* TO 'appAdmin'@'localhost';
+
+FLUSH PRIVILEGES;
+
+SELECT user,host FROM mysql.user;
+SHOW GRANTS FOR appAdmin@localhost;
