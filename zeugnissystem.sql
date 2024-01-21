@@ -30,7 +30,7 @@ create database if not exists Zeugnissystem;
 -- Tabellenstruktur für Tabelle `fächer`
 --
 
-CREATE TABLE if not exists `fächer` (
+CREATE TABLE IF NOT EXISTS `fächer` (
                           `ID` int(255) NOT NULL,
                           `Fachbezeichnung` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -44,7 +44,8 @@ INSERT INTO `fächer` (`ID`, `Fachbezeichnung`) VALUES
                                                    (2, 'Marketingachsprache'),
                                                    (3, 'Sprache und Kommunikation'),
                                                    (4, 'Gesellschaft'),
-                                                   (5, 'Sport');
+                                                   (5, 'Sport'),
+                                                   (6, 'Rechnungswesen');
 
 -- --------------------------------------------------------
 
@@ -52,7 +53,7 @@ INSERT INTO `fächer` (`ID`, `Fachbezeichnung`) VALUES
 -- Tabellenstruktur für Tabelle `klasse`
 --
 
-CREATE TABLE if not exists `klasse` (
+CREATE TABLE IF NOT EXISTS `klasse` (
                           `ID` int(255) NOT NULL,
                           `Klassenbezeichnung` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -62,7 +63,12 @@ CREATE TABLE if not exists `klasse` (
 --
 
 INSERT INTO `klasse` (`ID`, `Klassenbezeichnung`) VALUES
-    (1, 'AB21b');
+    (1, 'AB21a'),
+    (2, 'AB21b'),
+    (3, 'AB21c'),
+    (4, 'AB21d'),
+    (5, 'AB21e'),
+    (6, 'BM21d');
 
 -- --------------------------------------------------------
 
@@ -70,7 +76,7 @@ INSERT INTO `klasse` (`ID`, `Klassenbezeichnung`) VALUES
 -- Tabellenstruktur für Tabelle `noten`
 --
 
-CREATE TABLE if not exists `noten` (
+CREATE TABLE IF NOT EXISTS `noten` (
                          `ID` int(255) NOT NULL,
                          `Note` decimal(2,1) NOT NULL,
                          `Semester` int(255) NOT NULL,
@@ -82,16 +88,19 @@ CREATE TABLE if not exists `noten` (
 --
 
 INSERT INTO `noten` (`ID`, `Note`, `Semester`, `Fach`) VALUES
-                                                           (1, 6.0, 1, 1),
-                                                           (2, 5.0, 1, 2),
-                                                           (3, 5.5, 1, 2);
+                                                           (1, 6.0, 3, 1),
+                                                           (2, 5.0, 3, 2),
+                                                           (3, 5.5, 3, 2),
+                                                           (4, 4.5, 3, 5),
+                                                           (5, 3.5, 3, 4),
+                                                           (6, 6.0, 3, 6);
 
 -- --------------------------------------------------------
 --
 -- Tabellenstruktur für Tabelle `schüler`
 --
 
-CREATE TABLE if not exists `schüler` (
+CREATE TABLE IF NOT EXISTS `schüler` (
                            `ID` int(255) NOT NULL,
                            `Name` varchar(255) NOT NULL,
                            `Klasse` int(255) NOT NULL
@@ -102,16 +111,21 @@ CREATE TABLE if not exists `schüler` (
 --
 
 INSERT INTO `schüler` (`ID`, `Name`, `Klasse`) VALUES
-    (1, 'Florin Eibel', 1),
-    (2, 'Timo Blanc', 1);
-
+    (1, 'Florin Eibel', 2),
+    (2, 'Timo Blanc', 2),
+    (3, 'Tamino Wiederwald', 2),
+    (4, 'Aaron Meister', 2),
+    (5, 'Dennis Mandlehr', 2),
+    (6, 'Jana Kappeler', 2),
+    (7, 'Gaetan Zehnder', 1),
+    (8, 'Mara Strauss', 6);
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `semester`
 --
 
-CREATE TABLE if not exists `semester` (
+CREATE TABLE IF NOT EXISTS `semester` (
                             `ID` int(255) NOT NULL,
                             `Semester` int(1) NOT NULL,
                             `Schüler` int(255) NOT NULL
@@ -122,7 +136,14 @@ CREATE TABLE if not exists `semester` (
 --
 
 INSERT INTO `semester` (`ID`, `Semester`, `Schüler`) VALUES
-    (1, 1, 1);
+    (1, 1, 1),
+    (2, 2, 1),
+    (3, 3, 1),
+    (4, 4, 1),
+    (5, 5, 1),
+    (6, 6, 1),
+    (7, 7, 1),
+    (8, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +151,7 @@ INSERT INTO `semester` (`ID`, `Semester`, `Schüler`) VALUES
 -- Tabellenstruktur für Tabelle `zeugnis`
 --
 
-CREATE TABLE if not exists `zeugnis` (
+CREATE TABLE IF NOT EXISTS `zeugnis` (
                            `ID` int(255) NOT NULL,
                            `Semester` int(255) NOT NULL,
                            `Ausstellungsdatum` date NOT NULL,
@@ -142,11 +163,11 @@ CREATE TABLE if not exists `zeugnis` (
 --
 
 INSERT INTO `zeugnis` (`ID`, `Semester`, `Ausstellungsdatum`, `Änderungsdatum`) VALUES
-                                                                                    (3, 1, '2024-03-02', NULL);
---
--- Indizes der exportierten Tabellen
---
-
+     (1, 3, '2024-03-02', NULL),
+     (2, 3, '2024-03-02', NULL),
+     (3, 3, '2024-03-02', NULL),
+     (4, 3, '2024-03-02', NULL),
+     (5, 3, '2024-03-02', NULL);
 --
 -- Indizes für die Tabelle `fächer`
 --
